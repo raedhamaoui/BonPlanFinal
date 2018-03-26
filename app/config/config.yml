@@ -75,3 +75,6 @@ fos_user:
     from_email:
         address: bady.bensalah@esprit.tn
         sender_name: BadyBenSalah
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationType
