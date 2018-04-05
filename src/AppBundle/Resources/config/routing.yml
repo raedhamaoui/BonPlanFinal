@@ -1,0 +1,4 @@
+app_deals:
+    resource: "@AppBundle/Resources/config/routing/deals.yml"
+    prefix:   /deals
+
