@@ -1,0 +1,51 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Lieuxes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Addresse</th>
+                <th>Image</th>
+                <th>Categorie</th>
+                <th>User</th>
+                <th>Nom</th>
+                <th>Active</th>
+                <th>Capacite</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lieux in lieuxes %}
+            <tr>
+                <td><a href="{{ path('lieux_show', { 'id': lieux.id }) }}">{{ lieux.id }}</a></td>
+                <td>{{ lieux.addresse }}</td>
+                <td>{{ lieux.image }}</td>
+                <td>{{ lieux.categorie }}</td>
+                <td>{{ lieux.user }}</td>
+                <td>{{ lieux.nom }}</td>
+                <td>{% if lieux.active %}Yes{% else %}No{% endif %}</td>
+                <td>{{ lieux.capacite }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('lieux_show', { 'id': lieux.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('lieux_edit', { 'id': lieux.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('lieux_new') }}">Create a new lieux</a>
+        </li>
+    </ul>
+{% endblock %}

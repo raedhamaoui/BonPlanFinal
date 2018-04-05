@@ -16,7 +16,7 @@ class RegistrationType extends AbstractType
         $builder->add('roles', ChoiceType::class, array('label' => 'Type',
             'choices' => array(' AGENT' => 'ROLE_AGENT',
             'CLIENT' => 'ROLE_CLIENT'),
-        'required' => true, 'multiple' => true,));
+        'required' => true, 'multiple' => true));
     }
 
     public function getParent()

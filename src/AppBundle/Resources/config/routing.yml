@@ -1,3 +1,10 @@
+<<<<<<< HEAD
 freelancer_alluser:
     path:     /user/
     defaults: { _controller: FreelancerBundle:Freelancer:Alluser }roller.php"
+=======
+app_deals:
+    resource: "@AppBundle/Resources/config/routing/deals.yml"
+    prefix:   /deals
+
+>>>>>>> origin/master

@@ -1,0 +1,56 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Lieux</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lieux.id }}</td>
+            </tr>
+            <tr>
+                <th>Addresse</th>
+                <td>{{ lieux.addresse }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ lieux.image }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ lieux.categorie }}</td>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td>{{ lieux.user }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ lieux.nom }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{% if lieux.active %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Capacite</th>
+                <td>{{ lieux.capacite }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('lieux_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('lieux_edit', { 'id': lieux.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
