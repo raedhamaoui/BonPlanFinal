@@ -13,7 +13,13 @@ class LieuxType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('addresse')->add('image')->add('categorie')->add('user')->add('nom')->add('active')->add('capacite');
+        $builder->add('addresse')
+            ->add('image')
+            ->add('categorie')
+
+            ->add('nom')
+            ->add('active')
+            ->add('capacite');
     }/**
      * {@inheritdoc}
      */

@@ -22,18 +22,33 @@ class Reservation
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="lieu_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Lieux", inversedBy="reserv")
+     * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $lieuId;
+    private $lieux;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="user_id", type="integer")
+     * @return mixed
      */
-    private $userId;
+    public function getLieux()
+    {
+        return $this->lieux;
+    }
+
+    /**
+     * @param mixed $lieux
+     */
+    public function setLieux($lieux)
+    {
+        $this->lieux = $lieux;
+    }
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(referencedColumnName="id")
+     */
+    private $user;
 
     /**
      * @var string
@@ -61,52 +76,26 @@ class Reservation
     }
 
     /**
-     * Set lieuId
-     *
-     * @param integer $lieuId
-     *
-     * @return Reservation
+     * @return mixed
      */
-    public function setLieuId($lieuId)
+    public function getUser()
     {
-        $this->lieuId = $lieuId;
-
-        return $this;
+        return $this->user;
     }
 
     /**
-     * Get lieuId
-     *
-     * @return int
+     * @param mixed $user
      */
-    public function getLieuId()
+    public function setUser($user)
     {
-        return $this->lieuId;
+        $this->user = $user;
     }
 
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Reservation
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
 
-        return $this;
-    }
 
-    /**
-     * Get userId
-     *
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
+
+
+
 
     /**
      * Set nbrePlace

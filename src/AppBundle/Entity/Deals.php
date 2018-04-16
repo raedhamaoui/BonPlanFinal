@@ -29,9 +29,8 @@ class Deals
     private $image;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="lieux_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Lieux", inversedBy="deals")
+     * @ORM\JoinColumn(referencedColumnName="id" , nullable=false)
      */
     private $lieuxId;
 
@@ -85,6 +84,27 @@ class Deals
     private $description;
 
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
     /**
      * Get id
      *

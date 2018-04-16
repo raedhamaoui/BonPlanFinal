@@ -18,8 +18,8 @@
         {% for reservation in reservations %}
             <tr>
                 <td><a href="{{ path('reservation_show', { 'id': reservation.id }) }}">{{ reservation.id }}</a></td>
-                <td>{{ reservation.lieuId }}</td>
-                <td>{{ reservation.userId }}</td>
+                <td>{{ reservation.lieux.addresse }}</td>
+                
                 <td>{{ reservation.nbrePlace }}</td>
                 <td>{{ reservation.dateReservation }}</td>
                 <td>

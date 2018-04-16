@@ -42,12 +42,6 @@ class Lieux
      */
     private $categorie;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user", type="string", length=255)
-     */
-    private $user;
 
     /**
      * @var string
@@ -70,12 +64,35 @@ class Lieux
      */
     private $capacite;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Deals", mappedBy="lieuxId" , cascade={"persist", "remove"})
+     */
+    private $deals;
+
+    /**
+     * @return string
+     */
+    public function getDeals()
+    {
+        return $this->deals;
+    }
+
+    /**
+     * @param string $deals
+     */
+    public function setDeals($deals)
+    {
+        $this->deals = $deals;
+    }
+
+
 
     /**
      * Get id
      *
      * @return int
      */
+
     public function getId()
     {
         return $this->id;
@@ -153,29 +170,6 @@ class Lieux
         return $this->categorie;
     }
 
-    /**
-     * Set user
-     *
-     * @param string $user
-     *
-     * @return Lieux
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return string
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 
     /**
      * Set nom

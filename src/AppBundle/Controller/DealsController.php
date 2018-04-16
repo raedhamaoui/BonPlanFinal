@@ -39,7 +39,7 @@ class DealsController extends Controller
      */
     public function newAction(Request $request)
     {
-        $deal = new Deal();
+        $deal = new Deals();
         $form = $this->createForm('AppBundle\Form\DealsType', $deal);
         $form->handleRequest($request);
 
