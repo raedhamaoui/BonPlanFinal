@@ -64,6 +64,7 @@ var_dump($deals).die();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($deal);
             $em->flush();
