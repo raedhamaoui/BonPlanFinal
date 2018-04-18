@@ -10,4 +10,11 @@ namespace AppBundle\Repository;
  */
 class DealsRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findActivedeals()
+    {
+        $qb = $this->getEntityManager()
+            ->createQuery("Select d from AppBundle:Deals d where d.active=1")
+            ->getResult();
+        return $qb ;
+    }
 }

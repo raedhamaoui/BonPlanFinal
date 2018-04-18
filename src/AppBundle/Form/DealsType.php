@@ -14,7 +14,7 @@ class DealsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('image')
+        $builder->add('image',EntityType::class,array('class'=>'AppBundle:Image','choice_label'=>'Url'))
             ->add('lieuxId',EntityType::class,array('class'=>'AppBundle:Lieux','choice_label'=>'addresse'))
             ->add('nom')
             ->add('prix')

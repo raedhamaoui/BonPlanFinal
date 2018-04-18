@@ -23,7 +23,7 @@
         {% for deal in deals %}
             <tr>
                 <td><a href="{{ path('deals_show', { 'id': deal.id }) }}">{{ deal.id }}</a></td>
-                <td>{{ deal.image }}</td>
+                <td>{#{ deal.image }#}</td>
                 <td>{{ deal.lieuxId.addresse }}</td>
                 <td>{{ deal.nom }}</td>
                 <td>{{ deal.prix }}</td>
@@ -36,6 +36,9 @@
                     <ul>
                         <li>
                             <a href="{{ path('deals_show', { 'id': deal.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('aff_deals' ) }}">Tout les deals</a>
                         </li>
                         <li>
                             <a href="{{ path('deals_edit', { 'id': deal.id }) }}">edit</a>
