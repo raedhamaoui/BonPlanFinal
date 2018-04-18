@@ -17,6 +17,26 @@ class DealsController extends Controller
     /**
      * Lists all deal entities.
      *
+     * @Route("/activesDeals", name="deals_actives")
+     * @Method("GET")
+     */
+    public function activeAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $id = $user= $this->container->get('security.token_storage')->getToken()->getUser();
+       $deals = $em->getRepository('AppBundle:Deals')->findActivedeals();
+        //$deals = $em->getRepository('AppBundle:Deals')->findBy(
+          //  array('active'=>1)
+       // );
+var_dump($deals).die();
+        return $this->render('deals/index.html.twig', array(
+            'deals' => $deals,
+        ));
+    }
+    /**
+     * Lists all deal entities.
+     *
      * @Route("/", name="deals_index")
      * @Method("GET")
      */
@@ -117,6 +137,23 @@ class DealsController extends Controller
 
         return $this->redirectToRoute('deals_index');
     }
+    /**
+     * Finds and displays a deal entity.
+     *
+     * @Route("/actives", name="aff_deals")
+     */
+    public function affdealsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id =$this->getUser()->getId();
+
+        var_dump($id);
+        $user= $this->container->get('security.token_storage')->getToken()->getUser();
+        //$deals = $em->getRepository('AppBundle:Deals')->findActiveDeals($user->getId());
+
+        $deals = $em->getRepository("AppBundle:Deals")->findAll();
+        return $this->render(':deals:affdeals.html.twig', array('deals' => $deals));
+    }
 
     /**
      * Creates a form to delete a deal entity.
@@ -133,4 +170,5 @@ class DealsController extends Controller
             ->getForm()
         ;
     }
+
 }

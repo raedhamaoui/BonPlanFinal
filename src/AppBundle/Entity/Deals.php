@@ -22,9 +22,8 @@ class Deals
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image",mappedBy="imageD", cascade={"persist","remove"})
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id" ,nullable=false)
      */
     private $image;
 
@@ -116,11 +115,7 @@ class Deals
     }
 
     /**
-     * Set image
-     *
-     * @param string $image
-     *
-     * @return Deals
+     * @param mixed $user
      */
     public function setImage($image)
     {
@@ -130,9 +125,7 @@ class Deals
     }
 
     /**
-     * Get image
-     *
-     * @return string
+     * @return mixed
      */
     public function getImage()
     {
