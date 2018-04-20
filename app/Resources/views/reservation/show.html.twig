@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Reservation</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>Lieuid</th>
+                <td>{{ reservation.lieux.addresse }}</td>
+            </tr>
+            <tr>
+                <th>Userid</th>
+                <td>{{ reservation.user.username }}</td>
+            </tr>
+            <tr>
+                <th>Nbreplace</th>
+                <td>{{ reservation.nbrePlace }}</td>
+            </tr>
+            <tr>
+                <th>Datereservation</th>
+                <td>{{ reservation.dateReservation }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('reservation_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('reservation_edit', { 'id': reservation.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

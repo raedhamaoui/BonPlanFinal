@@ -1,0 +1,64 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Deal</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ deal.id }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ deal.image }}</td>
+            </tr>
+            <tr>
+                <th>Lieux</th>
+                <td>{{ deal.lieuxId.addresse}}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ deal.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ deal.prix }}</td>
+            </tr>
+            <tr>
+                <th>Visite</th>
+                <td>{{ deal.visite }}</td>
+            </tr>
+            <tr>
+                <th>Datedebut</th>
+                <td>{{ deal.dateDebut }}</td>
+            </tr>
+            <tr>
+                <th>Datefin</th>
+                <td>{{ deal.dateFin }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{% if deal.active %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ deal.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('deals_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('deals_edit', { 'id': deal.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
