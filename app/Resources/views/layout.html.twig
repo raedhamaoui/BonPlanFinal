@@ -28,7 +28,7 @@
     <link href="{{ asset('plugins/map/css/map.css')}}" rel="stylesheet">
     <link href="{{ asset('plugins/rateyo/jquery.rateyo.min.css')}}" rel="stylesheet">
     <link href="{{ asset('plugins/animate/animate.css')}}" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
@@ -43,7 +43,7 @@
     <!-- FAVICON -->
     <link href="{{ asset('img/favicon.png')}}" rel="shortcut icon">
 
-
+    <link rel="stylesheet" href="{{ asset('css/comments.css') }}" type="text/css" />
 
 </head>
 
@@ -99,27 +99,27 @@
                                     <li><a class="" href="index-5.html">Tous les Deals</a></li>
                                 </ul>
                             </li>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <li class="active dropdown singleDrop">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }} <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-left">
+                                        <li><a href="{{ path('fos_user_profile_show') }}">Mon profil</a></li>
+                                        <li><a href="{{ path('fos_user_security_logout') }}">Se deconnecter</a></li>
+                                        <li><a href="{{ path('publication_index') }}">Mes Publications</a></li>
+                                        <li><a href="">Mes Reservations</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="" href="{{ path('experiences_page') }}">Expériences</a></li>
 
-                            <li class="active dropdown singleDrop">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-left">
-                                    <li><a href="contact-us.html">Mon profil</a></li>
-                                    <li><a href="terms-of-services.html">Login</a></li>
-                                    <li><a href="sign-up.html">Se deconnecter</a></li>
-                                    <li><a href="{{ path('publication_index') }}">Mes Publications</a></li>
-                                    <li><a href="">Mes Reservations</a></li>
+                                <li class=""><a href="blog.html">blog </a></li>
+                                <li><a class="" href="{{ path('admin_homepage') }}">Administration</a></li>
+                            {% else %}
+                                <li><a class="" href="{{ path('fos_user_security_login') }}">Se connecter</a></li>
+                                <li><a class="" href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
+                            {% endif %}
 
-                                </ul>
-                            </li>
-                            <li><a class="" href="index-2.html">Expériences</a></li>
 
-                            <li class=""><a href="blog.html">blog </a></li>
-                            <li class=" dropdown singleDrop">
-                                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">admin <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-left">
-                                    <li><a href="dashboard.html">Dashboard</a></li>
-                                </ul>
-                            </li>
+
                         </ul>
                     </div>
                     <a class="btn btn-default navbar-btn" href="add-listings.html"> + <span>Add Listing</span></a>
@@ -129,9 +129,11 @@
     </header>
 
 <div class="container">
+    <br><br><br>
     {%  block body %}
 
     {%  endblock %}
+    <br><br><br>
 </div>
 
 
@@ -278,8 +280,10 @@
 <script src="{{ asset('js/map.js')}}"></script>
 <script src="{{ asset('js/custom.js')}}"></script>
 
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
 <link href="{{ asset('options/optionswitch.css')}}" rel="stylesheet">
 <script src="{{ asset('options/optionswitcher.js')}}"></script>
+{% block javascripts %}{% endblock %}
 </body>
 
 

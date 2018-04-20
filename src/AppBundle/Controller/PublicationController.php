@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Media;
 use AppBundle\Entity\Publication;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -44,7 +45,14 @@ class PublicationController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file =  $request->files->get('file'); // eli mawjoude fel form input type=file
+            $media = new Media();
+            $media->setFile($file);
+
             $em = $this->getDoctrine()->getManager();
+            $em->persist($media);
+            $publication->addMedia($media);
+            $em->flush();
             $publication->setCreatedBy($this->getUser());
             $em->persist($publication);
             $em->flush();
@@ -87,7 +95,13 @@ class PublicationController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $file =  $request->files->get('file'); // eli mawjoude fel form input type=file
+            $media = new Media();
+            $media->setFile($file);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($media);
+            $publication->addMedia($media);
+            $em->flush();
 
             return $this->redirectToRoute('publication_edit', array('id' => $publication->getId()));
         }

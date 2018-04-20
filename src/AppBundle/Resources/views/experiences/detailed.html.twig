@@ -1,0 +1,66 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>{{ publication.title }}</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Ajouté par </th>
+                    <td>{{ publication.createdBy.username }}</td>
+                </tr>
+                <tr>
+                    <th>Le </th>
+                    <td>{% if publication.dateExperience %}{{ publication.dateExperience|date('Y-m-d') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>à</th>
+                    <td>{{ publication.city }}</td>
+                </tr>
+                <tr>
+                    <th>Déscription</th>
+                    <td>{{ publication.description }}</td>
+                </tr>
+                <tr>
+                    <th>Vote</th>
+                    <td>{% if publication.rate == 0 %}Pas encore{% else %}{{ publication.rate|number_format(1) }}/5{% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            {% for media in publication.medias %}
+                {% if media.extension in ["png","jpg","jpeg"] %}
+                    <img style="height:340px;" src="{{ asset('uploads/' ~ media.path  ) }}">
+                {% else %}
+                    <iframe src="{{ asset('uploads/' ~ media.path  ) }}" height="340" width="300"></iframe>
+                {% endif %}
+                <hr>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+    {% if showVote %}
+        <div class="row">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <br>
+                <input type="submit" value="Voter" class="btn btn-warning" style="background-color: #1b6d85;color:white;padding:10px;">
+            {{ form_end(form) }}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <h4>Vous avez déjà voté!</h4>
+        </div>
+    {% endif %}
+    <br><br>
+
+    {% include '@FOSComment/Thread/async.html.twig' with {'id': publication.id } %}
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+
+    </script>
+{% endblock %}

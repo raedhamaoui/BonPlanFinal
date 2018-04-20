@@ -1,9 +1,9 @@
-{% extends 'layout.html.twig' %}
+{% extends 'adminLayout.html.twig' %}
 
 {% block body %}
     <br><br><br>
     <h1 style="color:#7f8c8d;">Publications list</h1>
-    <a class="btn btn-primary" href="{{ path('publication_new') }}">Create a new publication</a>
+
     <table class="table">
         <thead>
             <tr>
@@ -12,7 +12,6 @@
                 <th>Title</th>
                 <th>City</th>
                 <th>Description</th>
-                <th>State</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,14 +23,10 @@
                 <td>{{ publication.title }}</td>
                 <td>{{ publication.city }}</td>
                 <td>{% if publication.description | length > 120 %}{{ publication.description |slice(0,120) }}...{% else %}{{ publication.description }}{% endif %}</td>
-                <td>{% if publication.enabled %}Activée{% else %}Désactivée{% endif %}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('publication_show', { 'id': publication.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('publication_edit', { 'id': publication.id }) }}">edit</a>
+                            <a href="{{ path('admin_publication_show', { 'id': publication.id }) }}">show</a>
                         </li>
                     </ul>
                 </td>

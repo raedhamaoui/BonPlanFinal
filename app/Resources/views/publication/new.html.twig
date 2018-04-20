@@ -3,8 +3,12 @@
 {% block body %}
     <h1 style="color:#7f8c8d;">Publication creation</h1>
 
-    {{ form_start(form) }}
+    {{ form_start(form,{ 'attr' : {'enctype': 'multipart/form-data' }}) }}  {# {{ form_start(form,{ 'attr' : {'class': 'anyClass','autre' : 'autreValeur' }}) }}  #}
         {{ form_widget(form) }}
+
+        <br>
+            <input type="file" name="file" >
+        <br>
         <input type="submit" value="Create" class="btn btn-primary" />
     {{ form_end(form) }}
 

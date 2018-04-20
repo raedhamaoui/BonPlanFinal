@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,9 +25,16 @@ class User extends BaseUser
      */
     private $experiences;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rating", mappedBy="votedBy")
+     */
+    private $ratings;
+
     public function __construct()
     {
         parent::__construct();
+        $this->experiences = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
         // your own logic
     }
 
@@ -62,5 +70,39 @@ class User extends BaseUser
     public function getExperiences()
     {
         return $this->experiences;
+    }
+
+    /**
+     * Add rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     *
+     * @return User
+     */
+    public function addRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings[] = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Remove rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     */
+    public function removeRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings->removeElement($rating);
+    }
+
+    /**
+     * Get ratings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
     }
 }

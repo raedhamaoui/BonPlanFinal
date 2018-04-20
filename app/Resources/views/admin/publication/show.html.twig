@@ -1,11 +1,14 @@
-{% extends 'layout.html.twig' %}
+{% extends 'adminLayout.html.twig' %}
 
 {% block body %}
     <h1>Publication</h1>
 
     <table class="table">
         <tbody>
-
+            <tr>
+                <th>État</th>
+                <td>{% if publication.enabled %}Activée{% else %}Désactivée{% endif %}</td>
+            </tr>
             <tr>
                 <th>Createdat</th>
                 <td>{% if publication.createdAt %}{{ publication.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
@@ -40,18 +43,16 @@
             </tr>
         </tbody>
     </table>
+    <br>
+    {% include '@FOSComment/Thread/async.html.twig' with {'id': publication.id } %}
 
-    <ul>
-        <li>
-            <a href="{{ path('publication_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('publication_edit', { 'id': publication.id }) }}">Edit</a>
-        </li>
-        <li>
+    <br><br>
+            <a href="{{ path('admin_publication_index') }}" class="btn " style="padding:15px;margin-right:10px;background-color: white;color:black;float:left;">Back to the list</a>
+
+            <a href="{{ path('admin_publication_disable', { 'id': publication.id }) }}"class="btn " style="padding:15px;margin-right:10px;background-color: orange;color:white;float:left;">Désactiver publication</a>
+
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete" class="btn" style="background-color: red;color:white;padding:15px;">
+                <input type="submit" value="Delete" class="btn " style="background-color: red;color:white;float:left;">
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<br>
 {% endblock %}

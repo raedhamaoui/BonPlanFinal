@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,9 +63,39 @@ class Publication
      */
     private $description;
 
-    public function __construct()
+    /**
+     * @var integer
+     * MAX = 5, total vote, moyenne
+     * @ORM\Column(name="rate", type="integer")
+     */
+    private $rate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rating", mappedBy="votedTo")
+     */
+    private $ratings;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media")
+     * @ORM\JoinTable(name="publications_media",
+     *      joinColumns={@ORM\JoinColumn(name="pub_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="media_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $medias;
+
+    /**
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    private $enabled;
+
+    public function __construct() // par default valeurs
     {
         $this->createdAt = new \DateTime();
+        $this->ratings = new ArrayCollection();
+        $this->rate = 0;
+        $this->enabled = true;
     }
 
     /**
@@ -219,5 +250,121 @@ class Publication
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Add media
+     *
+     * @param \AppBundle\Entity\Media $media
+     *
+     * @return Publication
+     */
+    public function addMedia(\AppBundle\Entity\Media $media)
+    {
+        $this->medias[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param \AppBundle\Entity\Media $media
+     */
+    public function removeMedia(\AppBundle\Entity\Media $media)
+    {
+        $this->medias->removeElement($media);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * Set rate
+     *
+     * @param integer $rate
+     *
+     * @return Publication
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    /**
+     * Get rate
+     *
+     * @return integer
+     */
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
+    /**
+     * Add rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     *
+     * @return Publication
+     */
+    public function addRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings[] = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Remove rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     */
+    public function removeRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings->removeElement($rating);
+    }
+
+    /**
+     * Get ratings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Publication
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
     }
 }
