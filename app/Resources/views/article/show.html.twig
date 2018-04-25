@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Article</h1>
+
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <th>Titre</th>
+                <td>{{ article.titre }}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ article.text }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if article.createdAt %}{{ article.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/' ~ article.image.path ) }}" style="height: 250px;"></td>
+            </tr>
+        </tbody>
+    </table>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+       <div class="">
+           <a {% if liked is null %}href="{{ path('article_like',{'id' : article.id }) }}{% endif %}" style="float:left;background-color: {% if liked is null %}mediumseagreen{% else %}gray{% endif %};color:white;padding:20px;" class="btn btn-primary">
+              {{ totalLikes }} &nbsp; <img src="{{ asset('img/like.png') }}" >
+           </a>
+           &nbsp;&nbsp;&nbsp;&nbsp;
+           <a {% if liked is null %}href="{{ path('article_dislike',{'id' : article.id }) }}{% endif %}" style="background-color:{% if liked is null %} indianred{% else %}gray{% endif %};color:white;padding:20px;" class="btn btn-primary">
+               {{ totalDislikes }} &nbsp; <img src="{{ asset('img/thumb-down.png') }}" >
+           </a>
+    {% endif %}
+   </div>
+    <br><br><br>
+    <ul>
+        <li>
+            <a href="{{ path('article_show_all') }}">Back to the list</a>
+        </li>
+        {% if article.createdBy == app.user %}
+            <li>
+                <a href="{{ path('article_edit', { 'id': article.id }) }}">Edit</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+        {% endif %}
+    </ul>
+    <br><br>
+    {% include '@FOSComment/Thread/async.html.twig' with {'id': 'article-'~  article.id } %}
+
+{% endblock %}

@@ -94,4 +94,3 @@ class Task
         return $this->status;
     }
 }
-

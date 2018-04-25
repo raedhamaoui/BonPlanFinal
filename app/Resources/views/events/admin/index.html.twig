@@ -1,0 +1,47 @@
+{% extends 'adminLayout.html.twig' %}
+
+{% block body %}
+    <h1>Events list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datedebut</th>
+                <th>Datefin</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td><a href="{{ path('events_show', { 'id': event.id }) }}">{{ event.id }}</a></td>
+                <td>{% if event.dateDebut %}{{ event.dateDebut|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if event.dateFin %}{{ event.dateFin|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ event.titre }}</td>
+                <td>{{ event.description }}</td>
+                <td>{% if event.enabled  %}Activé{% else %}désactivé{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('events_show', { 'id': event.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('events_disable', { 'id': event.id }) }}">Désactiver</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('events_new') }}">Create a new event</a>
+        </li>
+    </ul>
+{% endblock %}

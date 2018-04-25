@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\LikesPublication;
 use AppBundle\Entity\Media;
 use AppBundle\Entity\Publication;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,6 +31,52 @@ class PublicationController extends Controller
         return $this->render('publication/index.html.twig', array(
             'publications' => $publications,
         ));
+    }
+
+    /**
+     * Finds and displays a article entity.
+     *
+     * @Route("/likes/{id}", name="publication_like")
+     * @Method("GET")
+     */
+    public function likesAction(Publication $publication)
+    {
+        $like = new LikesPublication();
+        $like->setPublication($publication);
+        $like->setLikesBy($this->getUser());
+        $like->setNote(1);
+        $publication->addLike($like);
+        $user  =$this->getUser();
+        $user->addLikesPub($like);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($like);
+        $em->persist($user);
+        $em->persist($publication);
+        $em->flush();
+        return $this->redirectToRoute("experiences_detailed",['id' => $publication->getId()]);
+    }
+
+    /**
+     * Finds and displays a article entity.
+     *
+     * @Route("/dislikes/{id}", name="publication_dislike")
+     * @Method("GET")
+     */
+    public function dislikesAction(Publication $publication)
+    {
+        $like = new LikesPublication();
+        $like->setPublication($publication);
+        $like->setLikesBy($this->getUser());
+        $like->setNote(-1);
+        $publication->addLike($like);
+        $user  =$this->getUser();
+        $user->addLikesPub($like);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($like);
+        $em->persist($user);
+        $em->persist($publication);
+        $em->flush();
+        return $this->redirectToRoute("experiences_detailed",['id' => $publication->getId()]);
     }
 
     /**

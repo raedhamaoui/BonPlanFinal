@@ -1,0 +1,48 @@
+{% extends 'adminLayout.html.twig' %}
+
+{% block body %}
+    <h1>Articles list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Text</th>
+                <th>Createdat</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td><a href="{{ path('article_show', { 'id': article.id }) }}">{{ article.id }}</a></td>
+                <td>{{ article.titre }}</td>
+                <td>{{ article.text }}</td>
+                <td>{% if article.createdAt %}{{ article.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    {% if article.enabled  %}
+                        Activé
+                    {% else %}
+                        Désactivé
+                    {% endif %}
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('article_show', { 'id': article.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('article_disable', { 'id': article.id }) }}">disable</a>
+                        </li>
+                    </ul>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

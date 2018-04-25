@@ -75,6 +75,10 @@ class Publication
      */
     private $ratings;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LikesPublication", mappedBy="publication")
+     */
+    private $likes;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media")
@@ -96,6 +100,7 @@ class Publication
         $this->ratings = new ArrayCollection();
         $this->rate = 0;
         $this->enabled = true;
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -366,5 +371,39 @@ class Publication
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Add like
+     *
+     * @param \AppBundle\Entity\LikesPublication $like
+     *
+     * @return Publication
+     */
+    public function addLike(\AppBundle\Entity\LikesPublication $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove like
+     *
+     * @param \AppBundle\Entity\LikesPublication $like
+     */
+    public function removeLike(\AppBundle\Entity\LikesPublication $like)
+    {
+        $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

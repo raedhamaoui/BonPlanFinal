@@ -34,6 +34,36 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/admin/articles", name="admin_articles_all")
+     */
+    public function articlesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $articles = $em->getRepository('AppBundle:Article')->findAll();
+        // replace this example code with whatever you need
+        return $this->render('article/admin/index.html.twig', [
+            'articles' => $articles
+        ]);
+    }
+
+    /**
+     * Lists all event entities.
+     *
+     * @Route("/admin/events", name="admin_events_index")
+     */
+    public function eventsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $events = $em->getRepository('AppBundle:Events')->findAll();
+
+        return $this->render('events/admin/index.html.twig', array(
+            'events' => $events,
+        ));
+    }
+
+    /**
      * @Route("/experiences", name="experiences_page")
      */
     public function experiencesAction(Request $request)
@@ -44,6 +74,19 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('@App/experiences/index.html.twig', [
             'experiences' => $experiences
+        ]);
+    }
+
+    /**
+     * @Route("/participations", name="participations_page")
+     */
+    public function participationsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $participations = $this->getUser()->getEventsParticipated();
+
+        return $this->render('@App/events/index.html.twig', [
+            'events' => $participations
         ]);
     }
 
@@ -82,10 +125,27 @@ class DefaultController extends Controller
         if($voted)
             $showVote = false;
 
+        $likes = $experience->getLikes();
+        $totalLike = 0;
+        $totalDisLike = 0;
+        foreach($likes as $like){
+            if($like->getNote() == 1){
+                $totalLike++;
+            }else{
+                $totalDisLike++;
+            }
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $liked = $em->getRepository("AppBundle:LikesPublication")->findOneBy(['publication' => $experience,'likesBy' => $this->getUser()]);
+
         return $this->render('@App/experiences/detailed.html.twig', [
             'publication' => $experience,
             'form'=> $form->createView(),
-            'showVote' => $showVote
+            'showVote' => $showVote,
+            'liked' => $liked,
+            'totalLikes' => $totalLike,
+            'totalDislikes' => $totalDisLike
         ]);
 
     }

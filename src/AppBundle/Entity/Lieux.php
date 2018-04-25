@@ -242,5 +242,35 @@ class Lieux
     {
         return $this->capacite;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->deals = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add deal
+     *
+     * @param \AppBundle\Entity\Deals $deal
+     *
+     * @return Lieux
+     */
+    public function addDeal(\AppBundle\Entity\Deals $deal)
+    {
+        $this->deals[] = $deal;
+
+        return $this;
+    }
+
+    /**
+     * Remove deal
+     *
+     * @param \AppBundle\Entity\Deals $deal
+     */
+    public function removeDeal(\AppBundle\Entity\Deals $deal)
+    {
+        $this->deals->removeElement($deal);
+    }
+}

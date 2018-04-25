@@ -1,0 +1,65 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Event</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ event.id }}</td>
+            </tr>
+            <tr>
+                <th>Datedebut</th>
+                <td>{% if event.dateDebut %}{{ event.dateDebut|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datefin</th>
+                <td>{% if event.dateFin %}{{ event.dateFin|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ event.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ event.description }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/' ~ event.image.path ) }}" style="height: 250px;"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <ul>
+        <li>
+            <a href="{{ path('events_show_all') }}">Back to the list</a>
+        </li>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if app.user == event.createdBy %}
+            <li>
+                <a href="{{ path('events_edit', { 'id': event.id }) }}">Edit</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+            {% else %}
+                {% if app.user not in event.participants %}
+                <li>
+                    <a class="btn btn-primary" style="background-color: green;" href="{{ path('events_participate', { 'id': event.id }) }}">Je participe</a>
+                </li>
+                {% else %}
+                    <li>
+                        Vous êtes participants
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </ul>
+    <br><br>
+    {% include '@FOSComment/Thread/async.html.twig' with {'id': 'events-'~  event.id } %}
+{% endblock %}

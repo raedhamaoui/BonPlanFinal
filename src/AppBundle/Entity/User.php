@@ -30,11 +30,44 @@ class User extends BaseUser
      */
     private $ratings;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LikesArticle", mappedBy="likesBy")
+     */
+    private $likes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LikesPublication", mappedBy="likesBy")
+     */
+    private $likesPub;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Article", mappedBy="createdBy")
+     */
+    private $articles;
+
+    /**
+     * Many Users have Many Groups.
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Events", inversedBy="participants")
+     * @ORM\JoinTable(name="users_participants")
+     */
+    private $eventsParticipated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Events", mappedBy="createdBy")
+     */
+    private $eventsCreated;
+
+
     public function __construct()
     {
         parent::__construct();
         $this->experiences = new ArrayCollection();
         $this->ratings = new ArrayCollection();
+        $this->articles = new ArrayCollection();
+        $this->likes = new ArrayCollection();
+        $this->likesPub = new ArrayCollection();
+        $this->eventsParticipated = new ArrayCollection();
+        $this->eventsCreated = new ArrayCollection();
         // your own logic
     }
 
@@ -104,5 +137,175 @@ class User extends BaseUser
     public function getRatings()
     {
         return $this->ratings;
+    }
+
+    /**
+     * Add article
+     *
+     * @param \AppBundle\Entity\Article $article
+     *
+     * @return User
+     */
+    public function addArticle(\AppBundle\Entity\Article $article)
+    {
+        $this->articles[] = $article;
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \AppBundle\Entity\Article $article
+     */
+    public function removeArticle(\AppBundle\Entity\Article $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * Add like
+     *
+     * @param \AppBundle\Entity\LikesArticle $like
+     *
+     * @return User
+     */
+    public function addLike(\AppBundle\Entity\LikesArticle $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove like
+     *
+     * @param \AppBundle\Entity\LikesArticle $like
+     */
+    public function removeLike(\AppBundle\Entity\LikesArticle $like)
+    {
+        $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * Add likesPub
+     *
+     * @param \AppBundle\Entity\LikesPublication $likesPub
+     *
+     * @return User
+     */
+    public function addLikesPub(\AppBundle\Entity\LikesPublication $likesPub)
+    {
+        $this->likesPub[] = $likesPub;
+
+        return $this;
+    }
+
+    /**
+     * Remove likesPub
+     *
+     * @param \AppBundle\Entity\LikesPublication $likesPub
+     */
+    public function removeLikesPub(\AppBundle\Entity\LikesPublication $likesPub)
+    {
+        $this->likesPub->removeElement($likesPub);
+    }
+
+    /**
+     * Get likesPub
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikesPub()
+    {
+        return $this->likesPub;
+    }
+
+    /**
+     * Add eventsParticipated
+     *
+     * @param \AppBundle\Entity\Events $eventsParticipated
+     *
+     * @return User
+     */
+    public function addEventsParticipated(\AppBundle\Entity\Events $eventsParticipated)
+    {
+        $this->eventsParticipated[] = $eventsParticipated;
+
+        return $this;
+    }
+
+    /**
+     * Remove eventsParticipated
+     *
+     * @param \AppBundle\Entity\Events $eventsParticipated
+     */
+    public function removeEventsParticipated(\AppBundle\Entity\Events $eventsParticipated)
+    {
+        $this->eventsParticipated->removeElement($eventsParticipated);
+    }
+
+    /**
+     * Get eventsParticipated
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEventsParticipated()
+    {
+        return $this->eventsParticipated;
+    }
+
+    /**
+     * Add eventsCreated
+     *
+     * @param \AppBundle\Entity\Events $eventsCreated
+     *
+     * @return User
+     */
+    public function addEventsCreated(\AppBundle\Entity\Events $eventsCreated)
+    {
+        $this->eventsCreated[] = $eventsCreated;
+
+        return $this;
+    }
+
+    /**
+     * Remove eventsCreated
+     *
+     * @param \AppBundle\Entity\Events $eventsCreated
+     */
+    public function removeEventsCreated(\AppBundle\Entity\Events $eventsCreated)
+    {
+        $this->eventsCreated->removeElement($eventsCreated);
+    }
+
+    /**
+     * Get eventsCreated
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEventsCreated()
+    {
+        return $this->eventsCreated;
     }
 }

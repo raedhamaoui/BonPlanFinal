@@ -1,0 +1,19 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Articles list</h1>
+    <a href="{{ path('article_new') }}" class="btn btn-warning" style="background-color: orange;padding:20px;">Create a new article</a>
+    <br><br>
+    <div class="row">
+        {% for article in articles %}
+                <div class="col-md-4" style="">
+                    <img style="height:330px;width:330px;" class="card-img-top" src="{{ asset('uploads/' ~ article.image.path ) }}" alt="Card image cap">
+                    <div class="card-body" style="padding:15px;">
+                        <h5 class="card-title">{{ article.titre }}</h5>
+                        <p class="card-text">{% if article.text | length > 85 %}{{ article.text |slice(0,85) }}...{% else %}{{ article.text }}{% endif %}</p>
+                        <a href="{{ path('article_show',{'id' : article.id }) }}" class="btn btn-primary" style="padding:15px;">Plus de détail</a>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+{% endblock %}

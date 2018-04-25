@@ -56,6 +56,18 @@
     {% endif %}
     <br><br>
 
+    <div class="">
+        <a {% if liked is null %}href="{{ path('publication_like',{'id' : publication.id }) }}{% endif %}" style="float:left;background-color: {% if liked is null %}mediumseagreen{% else %}gray{% endif %};color:white;padding:20px;" class="btn btn-primary">
+            {{ totalLikes }} &nbsp; <img src="{{ asset('img/like.png') }}" >
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a {% if liked is null %}href="{{ path('publication_dislike',{'id' : publication.id }) }}{% endif %}" style="background-color:{% if liked is null %} indianred{% else %}gray{% endif %};color:white;padding:20px;" class="btn btn-primary">
+            {{ totalDislikes }} &nbsp; <img src="{{ asset('img/thumb-down.png') }}" >
+        </a>
+
+    </div>
+    <br><br>
+
     {% include '@FOSComment/Thread/async.html.twig' with {'id': publication.id } %}
 
 {% endblock %}

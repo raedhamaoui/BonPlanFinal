@@ -145,4 +145,3 @@ class Reservation
         return $this->dateReservation;
     }
 }
-

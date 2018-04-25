@@ -324,4 +324,3 @@ class Deals
         return $this->description;
     }
 }
-
