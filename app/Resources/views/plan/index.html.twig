@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
     <h1>Plans list</h1>
@@ -9,10 +9,9 @@
                 <th>Id</th>
                 <th>Titre</th>
                 <th>Description</th>
-                <th>Lieux</th>
                 <th>Datepublication</th>
-                <th>Username</th>
-                <th>Categorie</th>
+                <th>Rate</th>
+                <th>Enabled</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,10 +21,9 @@
                 <td><a href="{{ path('plan_show', { 'id': plan.id }) }}">{{ plan.id }}</a></td>
                 <td>{{ plan.titre }}</td>
                 <td>{{ plan.description }}</td>
-                <td>{{ plan.lieux }}</td>
-                <td>{% if plan.datePublication %}{{ plan.datePublication|date('Y-m-d') }}{% endif %}</td>
-                <td>{{ plan.userName }}</td>
-                <td>{{ plan.categorie }}</td>
+                <td>{% if plan.datePublication %}{{ plan.datePublication|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ plan.rate }}</td>
+                <td>{% if plan.enabled %}Yes{% else %}No{% endif %}</td>
                 <td>
                     <ul>
                         <li>

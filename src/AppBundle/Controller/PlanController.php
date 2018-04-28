@@ -3,19 +3,22 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Plan;
+use AppBundle\Entity\Media;
+use AppBundle\Entity\LikesPlan;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Plan controller.
+ *
  * @Route("plan")
  */
 class PlanController extends Controller
 {
     /**
      * Lists all plan entities.
+     *
      * @Route("/", name="plan_index")
      * @Method("GET")
      */
@@ -31,8 +34,55 @@ class PlanController extends Controller
     }
 
     /**
+     * Finds and displays a article entity.
+     *
+     * @Route("/likes/{id}", name="plan_like")
+     * @Method("GET")
+     */
+    public function likesAction(Plan $plan)
+    {
+        $like = new LikesPlan();
+        $like->setPlan($plan);
+        $like->setLikesBy($this->getUser());
+        $like->setNote(1);
+        $plan->addLike($like);
+        $user  =$this->getUser();
+        $user->addLikesPlan($like);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($like);
+        $em->persist($user);
+        $em->persist($plan);
+        $em->flush();
+        return $this->redirectToRoute("experiences_detailed",['id' => $plan->getId()]);
+    }
+
+    /**
+     * Finds and displays a article entity.
+     *
+     * @Route("/dislikes/{id}", name="plan_dislike")
+     * @Method("GET")
+     */
+    public function dislikesAction(Plan $plan)
+    {
+        $like = new LikesPlan();
+        $like->setPlan($plan);
+        $like->setLikesBy($this->getUser());
+        $like->setNote(-1);
+        $publication->addLike($like);
+        $user  =$this->getUser();
+        $user->addLikesPlan($like);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($like);
+        $em->persist($user);
+        $em->persist($plan);
+        $em->flush();
+        return $this->redirectToRoute("experiences_detailed",['id' => $plan->getId()]);
+    }
+
+    /**
      * Creates a new plan entity.
-     *@Route("/new", name="plan_new")
+     *
+     * @Route("/new", name="plan_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -42,7 +92,15 @@ class PlanController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file =  $request->files->get('file'); // eli mawjoude fel form input type=file
+            $media = new Media();
+            $media->setFile($file);
+
             $em = $this->getDoctrine()->getManager();
+            $em->persist($media);
+            $plan->addMedia($media);
+            $em->flush();
+            $plan->setUserName($this->getUser());
             $em->persist($plan);
             $em->flush();
 
@@ -57,6 +115,7 @@ class PlanController extends Controller
 
     /**
      * Finds and displays a plan entity.
+     *
      * @Route("/{id}", name="plan_show")
      * @Method("GET")
      */
@@ -72,6 +131,7 @@ class PlanController extends Controller
 
     /**
      * Displays a form to edit an existing plan entity.
+     *
      * @Route("/{id}/edit", name="plan_edit")
      * @Method({"GET", "POST"})
      */
@@ -82,7 +142,13 @@ class PlanController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $file =  $request->files->get('file'); // eli mawjoude fel form input type=file
+            $media = new Media();
+            $media->setFile($file);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($media);
+            $plan->addMedia($media);
+            $em->flush();
 
             return $this->redirectToRoute('plan_edit', array('id' => $plan->getId()));
         }
@@ -96,6 +162,7 @@ class PlanController extends Controller
 
     /**
      * Deletes a plan entity.
+     *
      * @Route("/{id}", name="plan_delete")
      * @Method("DELETE")
      */

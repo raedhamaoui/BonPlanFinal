@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Plan
@@ -44,7 +45,7 @@ class Plan
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datePublication", type="date")
+     * @ORM\Column(name="datePublication", type="datetime")
      */
     private $datePublication;
 
@@ -65,6 +66,54 @@ class Plan
      * Get id
      *
      * @return int
+     */
+
+    /**
+     * @var integer
+     * MAX = 5, total vote, moyenne
+     * @ORM\Column(name="rate", type="integer")
+     */
+    private $rate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rating", mappedBy="votedTo")
+     */
+    private $ratings;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LikesPublication", mappedBy="publication")
+     */
+    private $likes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media")
+     * @ORM\JoinTable(name="publications_media",
+     *      joinColumns={@ORM\JoinColumn(name="pub_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="media_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $medias;
+
+    /**
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    private $enabled;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ratings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
      */
     public function getId()
     {
@@ -119,8 +168,6 @@ class Plan
         return $this->description;
     }
 
-
-
     /**
      * Set datePublication
      *
@@ -146,7 +193,71 @@ class Plan
     }
 
     /**
-     * @return mixed
+     * Set rate
+     *
+     * @param integer $rate
+     *
+     * @return Plan
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    /**
+     * Get rate
+     *
+     * @return integer
+     */
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Plan
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set lieux
+     *
+     * @param \AppBundle\Entity\Lieux $lieux
+     *
+     * @return Plan
+     */
+    public function setLieux(\AppBundle\Entity\Lieux $lieux = null)
+    {
+        $this->lieux = $lieux;
+
+        return $this;
+    }
+
+    /**
+     * Get lieux
+     *
+     * @return \AppBundle\Entity\Lieux
      */
     public function getLieux()
     {
@@ -154,15 +265,23 @@ class Plan
     }
 
     /**
-     * @param mixed $lieux
+     * Set userName
+     *
+     * @param \AppBundle\Entity\User $userName
+     *
+     * @return Plan
      */
-    public function setLieux($lieux)
+    public function setUserName(\AppBundle\Entity\User $userName = null)
     {
-        $this->lieux = $lieux;
+        $this->userName = $userName;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get userName
+     *
+     * @return \AppBundle\Entity\User
      */
     public function getUserName()
     {
@@ -170,15 +289,23 @@ class Plan
     }
 
     /**
-     * @param mixed $userName
+     * Set categorie
+     *
+     * @param \AppBundle\Entity\Categorie $categorie
+     *
+     * @return Plan
      */
-    public function setUserName($userName)
+    public function setCategorie(\AppBundle\Entity\Categorie $categorie = null)
     {
-        $this->userName = $userName;
+        $this->categorie = $categorie;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get categorie
+     *
+     * @return \AppBundle\Entity\Categorie
      */
     public function getCategorie()
     {
@@ -186,13 +313,104 @@ class Plan
     }
 
     /**
-     * @param mixed $categorie
+     * Add rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     *
+     * @return Plan
      */
-    public function setCategorie($categorie)
+    public function addRating(\AppBundle\Entity\Rating $rating)
     {
-        $this->categorie = $categorie;
+        $this->ratings[] = $rating;
+
+        return $this;
     }
 
+    /**
+     * Remove rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     */
+    public function removeRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings->removeElement($rating);
+    }
 
+    /**
+     * Get ratings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
+    }
 
+    /**
+     * Add like
+     *
+     * @param \AppBundle\Entity\LikesPublication $like
+     *
+     * @return Plan
+     */
+    public function addLike(\AppBundle\Entity\LikesPublication $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove like
+     *
+     * @param \AppBundle\Entity\LikesPublication $like
+     */
+    public function removeLike(\AppBundle\Entity\LikesPublication $like)
+    {
+        $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * Add media
+     *
+     * @param \AppBundle\Entity\Media $media
+     *
+     * @return Plan
+     */
+    public function addMedia(\AppBundle\Entity\Media $media)
+    {
+        $this->medias[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param \AppBundle\Entity\Media $media
+     */
+    public function removeMedia(\AppBundle\Entity\Media $media)
+    {
+        $this->medias->removeElement($media);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
 }

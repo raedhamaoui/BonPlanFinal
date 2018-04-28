@@ -41,6 +41,11 @@ class User extends BaseUser
     private $likesPub;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LikesPlan", mappedBy="likesBy")
+     */
+    private $likesPlan;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Article", mappedBy="createdBy")
      */
     private $articles;
@@ -66,6 +71,7 @@ class User extends BaseUser
         $this->articles = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->likesPub = new ArrayCollection();
+        $this->likesPlan = new ArrayCollection();
         $this->eventsParticipated = new ArrayCollection();
         $this->eventsCreated = new ArrayCollection();
         // your own logic
@@ -307,5 +313,39 @@ class User extends BaseUser
     public function getEventsCreated()
     {
         return $this->eventsCreated;
+    }
+
+    /**
+     * Add likesPlan
+     *
+     * @param \AppBundle\Entity\LikesPlan $likesPlan
+     *
+     * @return User
+     */
+    public function addLikesPlan(\AppBundle\Entity\LikesPlan $likesPlan)
+    {
+        $this->likesPlan[] = $likesPlan;
+
+        return $this;
+    }
+
+    /**
+     * Remove likesPlan
+     *
+     * @param \AppBundle\Entity\LikesPlan $likesPlan
+     */
+    public function removeLikesPlan(\AppBundle\Entity\LikesPlan $likesPlan)
+    {
+        $this->likesPlan->removeElement($likesPlan);
+    }
+
+    /**
+     * Get likesPlan
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikesPlan()
+    {
+        return $this->likesPlan;
     }
 }
