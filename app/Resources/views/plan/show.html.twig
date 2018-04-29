@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block body %}
     <h1>Plan</h1>
 
-    <table>
+    <table  class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -29,6 +29,19 @@
                 <th>Enabled</th>
                 <td>{% if plan.enabled %}Yes{% else %}No{% endif %}</td>
             </tr>
+            <tr>
+                <th>Photos</th>
+                <td>
+                    {% for media in plan.medias %}
+                        {% if media.extension in ["png","jpg","jpeg"] %}
+                            <img src="{{ asset('uploads/' ~ media.path  ) }}">
+                        {% else %}
+                            <iframe src="{{ asset('uploads/' ~ media.path  ) }}" height="200" width="300"></iframe>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+
         </tbody>
     </table>
 
@@ -41,7 +54,7 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete" class="btn" style="background-color: red;color:white;padding:15px;">
             {{ form_end(delete_form) }}
         </li>
     </ul>

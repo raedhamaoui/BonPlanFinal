@@ -1,12 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block body %}
-    <h1>Plans list</h1>
-
-    <table>
+    <h1 style="color:#7f8c8d;">Plans list</h1>
+    <a class="btn btn-primary" href="{{ path('plan_new') }}">Create a new plan</a>
+    <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Datepublication</th>
@@ -18,7 +17,6 @@
         <tbody>
         {% for plan in plans %}
             <tr>
-                <td><a href="{{ path('plan_show', { 'id': plan.id }) }}">{{ plan.id }}</a></td>
                 <td>{{ plan.titre }}</td>
                 <td>{{ plan.description }}</td>
                 <td>{% if plan.datePublication %}{{ plan.datePublication|date('Y-m-d H:i:s') }}{% endif %}</td>
@@ -38,10 +36,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('plan_new') }}">Create a new plan</a>
-        </li>
-    </ul>
 {% endblock %}

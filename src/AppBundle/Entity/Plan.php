@@ -81,14 +81,14 @@ class Plan
     private $ratings;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LikesPublication", mappedBy="publication")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LikesPlan", mappedBy="plan")
      */
     private $likes;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media")
-     * @ORM\JoinTable(name="publications_media",
-     *      joinColumns={@ORM\JoinColumn(name="pub_id", referencedColumnName="id")},
+     * @ORM\JoinTable(name="plan_media",
+     *      joinColumns={@ORM\JoinColumn(name="plan_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="media_id", referencedColumnName="id", unique=true)}
      *      )
      */
@@ -106,8 +106,10 @@ class Plan
     public function __construct()
     {
         $this->ratings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rate = 0;
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->enabled = true;
+        $this->datePublication = new \DateTime();
     }
 
     /**
@@ -349,11 +351,11 @@ class Plan
     /**
      * Add like
      *
-     * @param \AppBundle\Entity\LikesPublication $like
+     * @param \AppBundle\Entity\LikesPlan $like
      *
      * @return Plan
      */
-    public function addLike(\AppBundle\Entity\LikesPublication $like)
+    public function addLike(\AppBundle\Entity\LikesPlan $like)
     {
         $this->likes[] = $like;
 
@@ -363,9 +365,9 @@ class Plan
     /**
      * Remove like
      *
-     * @param \AppBundle\Entity\LikesPublication $like
+     * @param \AppBundle\Entity\LikesPlan $like
      */
-    public function removeLike(\AppBundle\Entity\LikesPublication $like)
+    public function removeLike(\AppBundle\Entity\LikesPlan   $like)
     {
         $this->likes->removeElement($like);
     }
