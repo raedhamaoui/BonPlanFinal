@@ -142,13 +142,7 @@ class PlanController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $file =  $request->files->get('file'); // eli mawjoude fel form input type=file
-            $media = new Media();
-            $media->setFile($file);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($media);
-            $plan->addMedia($media);
-            $em->flush();
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('plan_edit', array('id' => $plan->getId()));
         }
