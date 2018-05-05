@@ -10,16 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="prestataire")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrestataireRepository")
  */
-class Prestataire extends User
+class Prestataire
 {
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
@@ -154,6 +153,19 @@ class Prestataire extends User
     public function getPhoneNumber()
     {
         return $this->phoneNumber;
+    }
+
+    /**
+     * Set id
+     *
+     * @return Prestataire
+     */
+    public function setId($id)
+    {
+
+        $this->id = $id;
+
+        return $this;
     }
 }
 

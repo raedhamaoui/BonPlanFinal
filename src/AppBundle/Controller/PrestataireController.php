@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Prestataire;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -45,9 +46,15 @@ class PrestataireController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $id = $user->getId();
+            $prestataire->setId($id);
             $em->persist($prestataire);
             $em->flush();
-
+            $user->removeRole('ROLE_CLIENT');
+            $user->addRole('ROLE_PRESTATAIRE');
+            $em->persist($user);
+            $em->flush();
             return $this->redirectToRoute('prestataire_show', array('id' => $prestataire->getId()));
         }
 
