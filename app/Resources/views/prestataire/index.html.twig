@@ -1,0 +1,45 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Prestataires list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Compagnie</th>
+                <th>Typeservice</th>
+                <th>Adresse</th>
+                <th>Phonenumber</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prestataire in prestataires %}
+            <tr>
+                <td><a href="{{ path('prestataire_show', { 'id': prestataire.id }) }}">{{ prestataire.id }}</a></td>
+                <td>{{ prestataire.compagnie }}</td>
+                <td>{{ prestataire.typeService }}</td>
+                <td>{{ prestataire.adresse }}</td>
+                <td>{{ prestataire.phoneNumber }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('prestataire_show', { 'id': prestataire.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('prestataire_edit', { 'id': prestataire.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('prestataire_new') }}">Create a new prestataire</a>
+        </li>
+    </ul>
+{% endblock %}
